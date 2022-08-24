@@ -20,3 +20,13 @@ Ill be using react, js and html as well as some new projects such as cors, dotev
 
 ## Credit and Collaborations
 Did some code review as well as some wireframing with Brooke.
+
+Name of feature:Send forecast
+
+Estimate of time needed to complete: 2 hours
+
+Start time: 2pm
+
+Finish time: 10am
+
+Actual time needed to complete: 6 hours
