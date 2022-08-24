@@ -35,17 +35,15 @@ const PORT = process.env.PORT || 3002;
 // app.get correletes to axios.get
 // the first parameter is a URL in quotes
 
-app.get('/', (request, response) => {
-  response.send('Hello from our server!');
-});
 
 app.get('/weather', (request, response, next) => {
   console.log(request.query.city_name);
   try {
-    let city = request.query.city_name;
-    let cityObj = data.find(city => weather.city === city)
-    let selected = new Forecast(cityObj);
+    let cityInput = request.query.city_name;
+    let cityObj = data.find(city => city.city_name === cityInput)
+    let selected = cityObj.data.map(r=> new Forecast(r));
     response.send(selected);
+    console.log(selected);
   } catch(err) {
     next(err)
   }
@@ -74,9 +72,9 @@ app.use((error, request, response, next) => {
 
 class Forecast {
   constructor(city) {
-    this.name = city.name;
-    this.city = city;
-  }
+    this.date = city.datetime;
+    this.desc = city.weather.description;
+    }
 }
 
 // LISTEN
