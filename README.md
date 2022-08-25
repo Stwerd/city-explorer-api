@@ -29,4 +29,14 @@ Start time: 2pm
 
 Finish time: 10am
 
-Actual time needed to complete: 6 hours
+Actual time needed to complete: 6 hours [Wireframe](images/wireframe.png)
+
+Name of feature:Send forecast from the web, and send movies from the web to the main server
+
+Estimate of time needed to complete: 8 hours
+
+Start time: 2pm
+
+Finish time: 10pm
+
+Actual time needed to complete: 8 hours [Wireframe](images/image.jpg)
