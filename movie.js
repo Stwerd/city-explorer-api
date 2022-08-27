@@ -1,3 +1,5 @@
+'use strict';
+
 const axios = require('axios');
 
 async function getMovie(request, response, next) {
