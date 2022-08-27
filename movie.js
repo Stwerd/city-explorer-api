@@ -1,21 +1,35 @@
 const axios = require('axios');
 
-async function getMovie(request, response, next){
-  console.log(request.query.title);
-  try{
-    let title = request.query.title;
-    
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIES}&language=en-US&query=${title}&page=1&include_adult=false`
-    let getIt = await axios.get(url);
-    //send it thru the object maker then send it up!!
+async function getMovie(request, response, next) {
 
-    // response.send(getIt.data);
-    let movArr = getIt.data.results.map(r=> new Movie(r));
-    response.send(movArr);
+  let cache = {};
+  let time = Date.now();
+  let timeDifference = 1000 * 10;
+
+  try {
+    let title = request.query.title;
+    let key = `${title}data`;
+    if (cache[key] && time - cache[key].timeStamp < timeDifference) {
+      response.send(cache[key].data);
+      console.log('its in the cache');
+    }
+    else {
+      const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.REACT_APP_MOVIES}&language=en-US&query=${title}&page=1&include_adult=false`
+      let getIt = await axios.get(url);
+      //send it thru the object maker then send it up!!
+
+      // response.send(getIt.data);
+      let movArr = getIt.data.results.map(r => new Movie(r));
+      response.send(movArr);
+      cache[key] = {
+        data: movArr,
+        timeStamp: time
+      };
+    }
   }
-  catch (err){
+  catch (err) {
     // next(err);
-    Promise.resolve().then(()=>{
+    Promise.resolve().then(() => {
       throw new Error(err.message);
     }).catch(next);
   }
@@ -23,7 +37,7 @@ async function getMovie(request, response, next){
 
 // CLASSES
 class Movie {
-  constructor(mov){
+  constructor(mov) {
     this.title = mov.original_title;
     this.desc = mov.overview;
     this.url = `https://image.tmdb.org/t/p/w500${mov.poster_path}`;
